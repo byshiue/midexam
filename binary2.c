@@ -1,0 +1,18 @@
+#include <stdio.h>
+
+int main()
+{
+	int k, n, N=1 << 4;
+	printf("Please input a number:");
+	scanf("%d", &n);
+	k = 0;
+	while(n>0)
+	{
+		N >>= 1;
+		printf("%d(%d)", n % 2, N);
+		k += (n % 2) * N;
+		n = (n - n % 2) >> 1;
+	}
+	printf("\n%d\n",k);
+	return 0;
+}
