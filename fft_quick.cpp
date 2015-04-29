@@ -21,7 +21,7 @@ int main()
 	cout << "Please enter an interger:" ;
 	cin  >> p ; 
 	N=1 << p  ;
-	cout << N << endl ;
+	cout << "N=" << N << endl ;
 	
 	// create memory of x, y 
 	x_r = (double*) malloc ( N*sizeof(double)) ; 
@@ -101,6 +101,8 @@ int FFT( double* x_r, double* x_i, double* y_r, double* y_i, int N )
 	}
 	free(u_r) ; 
 	free(u_i) ; 
+	free(v_r) ; 
+	free(v_i) ;
 	
 }
 

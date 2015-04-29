@@ -15,8 +15,11 @@ int main()
 									// x_i : image part of x 
 									// y_r : real part of y
 									// y_i : image part of y
-	int k, n, N ;  // in put an integer to N 
-	cin  >> N ; 
+	int k, n, N, p ;  // in put an integer to N 
+	cout << "Please enter an interger:" ;
+	cin  >> p ; 
+	N=1 << p  ;
+	cout << "N=" << N << endl ;
 	
 	// create memory of x, y 
 	x_r = (double*) malloc ( N*sizeof(double)) ; 
