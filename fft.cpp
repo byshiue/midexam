@@ -31,6 +31,7 @@ int main()
 	}
 	
 	t1 = clock() ; 
+	
 	for ( int k = 0 ; k < N ; k++)
 	{
 		y_r[k] = 0.0 ; 
@@ -47,7 +48,8 @@ int main()
 		}
 	}
 	t2 = clock() ; 
-		
+	
+	/*	
 	for ( int i = 0 ; i< N ; i++) 
 	{
 		cout << setw(6) ; 
@@ -55,6 +57,7 @@ int main()
 			 << "第" << i << "個y的虛部為:" << y_i[i] << " " << endl ;
 			 
 	}
+	*/
 	cout << (t2-t1)/1000 << endl ;
 	
 	return 0 ;

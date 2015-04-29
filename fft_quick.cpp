@@ -17,9 +17,11 @@ int main()
 									// x_i : image part of x 
 									// y_r : real part of y
 									// y_i : image part of y
-	int k, n, N ;  // in put an integer to N 
+	int k, n, N, p ;  // in put an integer to N 
 	cout << "Please enter an interger:" ;
-	cin  >> N ; 
+	cin  >> p ; 
+	N=1 << p  ;
+	cout << N << endl ;
 	
 	// create memory of x, y 
 	x_r = (double*) malloc ( N*sizeof(double)) ; 
@@ -33,34 +35,24 @@ int main()
 		x_i[i] = 0 ;
 	}
 	
-	FFT( x_r, x_i, y_r, y_i, N ) ; 
+
 	
 
 	t1 = clock() ; 
-	for ( int k = 0 ; k < N ; k++)
-	{
-		y_r[k] = 0.0 ; 
-		y_i[k] = 0.0 ; 
-		for ( int j = 0 ; j < N; j++)
-		{
-			// w^{-kn} 
-			// = cos(-kn*2pi / N ) + isin (-kn*2pi / N) 
-			w_r = cos(-k*j*2*M_PI/N) ; 
-			w_i = sin(-k*j*2*M_PI/N) ; 
-			
-			y_r[k] += x_r[j] * w_r - x_i[j] * w_i  ;
-			y_i[k] += x_r[j] * w_i + x_i[j] * w_r  ;
-		}
-	}
+	
+	FFT( x_r, x_i, y_r, y_i, N ) ; 
+	
 	t2 = clock() ; 
-		
+	
+	/*	
 	for ( int i = 0 ; i< N ; i++) 
 	{
-		cout << setw(6) ; 
-		cout << "第" << i << "個y的實部為:" << y_r[i] << "  "
+		cout << setprecision(6)  
+			 << "第" << i << "個y的實部為:" << y_r[i] << "  "
 			 << "第" << i << "個y的虛部為:" << y_i[i] << "i" << " " << endl ;
 			 
 	}
+	*/
 	cout << (t2-t1)/1000 << endl ;
 	
 	return 0 ;
@@ -107,6 +99,8 @@ int FFT( double* x_r, double* x_i, double* y_r, double* y_i, int N )
 		y_r[k+N/2] = u_r[k] - (w_r*u_r[k+N/2] - w_i*u_i[k+N/2] ) ;
 		y_i[k+N/2] = u_i[k] - (w_r*u_i[k+N/2] + w_i*u_r[k+N/2] ) ; 
 	}
+	free(u_r) ; 
+	free(u_i) ; 
 	
 }
 
