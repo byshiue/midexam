@@ -11,9 +11,8 @@ int Print_Complex_Vector(double *y_r, double *y_i, int N);
 int Bit_Increase(int *D, int b, int N);
 int Bit_Reverse(int *D, int b, int N);
 int Bit_Reverse2(int *D, int b, int N);
-
 int Bit_Reverse_Integer(int p);
-int FFTv2(double *x_r, double *x_i, double *y_r, double *y_i, int N);
+int FFTv3(double *x_r, double *x_i, double *y_r, double *y_i, int N);
 int main()
 {
 	// y_k = sum(x_n * w^{-kn}, n=0..N-1)
@@ -37,18 +36,24 @@ int main()
 	Initial(x_r, x_i, N);
 	
 	// Slow Fourier Transform
-	t1 = clock();
-	SFT(x_r, x_i, y_r, y_i, N);
-	t2 = clock();
-	printf("Slow FT: %f secs\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);
-	Print_Complex_Vector(y_r, y_i, N);
+	//t1 = clock();
+	//SFT(x_r, x_i, y_r, y_i, N);
+	//t2 = clock();
+	//printf("Slow FT: %f secs\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);
+	//Print_Complex_Vector(y_r, y_i, N);
 	
 	Initial(x_r, x_i, N);
 	t1 = clock();
-	FFTv2(x_r, x_i, z_r, z_i, N);
+	FFT(x_r, x_i, y_r, y_i, N);
 	t2 = clock();
-	printf("Fast FT: %f secs\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);	
-	Print_Complex_Vector(z_r, z_i, N);
+	printf("Fast FT: %f secs\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);
+	
+	Initial(x_r, x_i, N);
+	t1 = clock();
+	FFTv3(x_r, x_i, z_r, z_i, N);
+	t2 = clock();
+	printf("Fast FT3: %f secs\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);	
+	//Print_Complex_Vector(z_r, z_i, N);
 	printf("Error: %e\n", Compare_Complex_Vector(y_r, y_i, z_r, z_i, N));
 	return 0;
 	
@@ -280,7 +285,7 @@ int Bit_Reverse_Integer(int p)
 	
 	return 0;	
 }
-int FFTv2(double *x_r, double *x_i, double *y_r, double *y_i, int N)
+int FFTv3(double *x_r, double *x_i, double *y_r, double *y_i, int N)
 {
 	int k, n;
 	for(n=0;n<N;++n)
@@ -295,7 +300,7 @@ int FFTv2(double *x_r, double *x_i, double *y_r, double *y_i, int N)
 	q = m; 
 	for(p=1;p<N-1;++p)
 	{
-		printf("%d <-> %d\n", p,q);
+		//printf("%d <-> %d\n", p,q);
 
 		if(p < q)
 		{
