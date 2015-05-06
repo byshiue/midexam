@@ -44,7 +44,7 @@ int main()
 	
 	t2 = clock() ; 
 	
-	/*	
+		
 	for ( int i = 0 ; i< N ; i++) 
 	{
 		cout << setprecision(6)  
@@ -52,7 +52,6 @@ int main()
 			 << "第" << i << "個y的虛部為:" << y_i[i] << "i" << " " << endl ;
 			 
 	}
-	*/
 	cout << (t2-t1)/1000 << endl ;
 	
 	return 0 ;
@@ -82,8 +81,8 @@ int FFT( double* x_r, double* x_i, double* y_r, double* y_i, int N )
 	{
 		u_r[n] = x_r[2*n] ; // even terms of real part of x puts in first n terms of u_r
 		u_i[n] = x_i[2*n] ; // even terms of image part of x puts in first n terms of u_i
-		u_r[n+N/2] = x_r[2+n+1] ; // odd terms of real part of x puts in last n terms of u_r
-		u_i[n+N/2] = x_i[2+n+1] ; // odd terms of real part of x puts in last n terms of u_r
+		u_r[n+N/2] = x_r[2*n+1] ; // odd terms of real part of x puts in last n terms of u_r
+		u_i[n+N/2] = x_i[2*n+1] ; // odd terms of real part of x puts in last n terms of u_r
 	}
 	FFT(u_r, u_i, v_r, v_i, N/2 ) ; 
 	FFT(u_r+N/2, u_i+N/2, v_r+N/2, v_i+N/2, N/2 ) ; 
