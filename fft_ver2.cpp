@@ -16,10 +16,12 @@ int BIT_REVERSE(int *D, int b , int N);
 int BIT_REVERSE_INT_2(int N);
 int BIT_REVERSE_INT_3(int N);
 int BIT_REVERSE_INT_5(int N);
+int GROUP(int N) ; 
+int FFTv3 (double *x_r, double *x_i, double *y_r, double *y_i, int N  );
 //int GENERATE_N(int p, int q, int r) ;
 int main()
 {
-
+	
 	// y_k = sum( x_n * w^{-kn}, n=0..N-1}
 	// w = cos(2*pi / N) + i*sin(2*pi/N)
 	
@@ -44,7 +46,7 @@ int main()
 	
 
 	
-	FFT( x_r, x_i, y_r, y_i, N ) ; 
+	FFTv3( x_r, x_i, y_r, y_i, N ) ; 
 	PRINT_COMPLEX_VEC(y_r,y_i,N) ; 
 	
 	cout << endl ;
@@ -309,4 +311,61 @@ int FFTv3 (double *x_r, double *x_i, double *y_r, double *y_i, int N  )
 		j += M ; 
 		i++ ; 
 	}
+	
+	int n=1 ; 
+	while ( n < N )
+	{
+		double u_r = cos(-2.0*M_PI/(2*n)) ; 
+		double u_i = sin(-2.0*M_PI/(2*n)) ;
+		double w_r, w_i ; 
+			
+		for (i = 0 ; i < n ; i++)
+		{
+			// 盡量不要用sin, cos 
+			//  
+			double temp = w_r;
+			w_r = w_r  * u_r - w_i *u_i ; 
+			w_i = temp * u_i + w_i *u_r ; 
+			for ( int j=i ; j< N ; j=j+2*n)
+			{
+				int k = j+n ;
+				double t_r = w_r*y_r[k]	 - w_i*y_i[k] ; 
+				double t_i = w_r*y_i[k]	 + w_i*y_r[k] ; 
+				// jth term : jth + w^(-i)*kth = jth + t
+				// kth term : jth - w^(-i)*kth = jth - t
+				y_r[k] = y_r[k] -t_r;
+				y_i[k] = y_i[k] -t_i;
+				y_r[j] = y_r[j] +t_r;
+				y_i[j] = y_i[j] +t_i; 
+			}
+		}
+		n *= 2 ; 
+	}
+	
+}
+
+int GROUP(int N)
+{
+	// N = 8 
+	// n = 1  ((0,1)   (2,3)	   (4,5) (6,7))	  Big Group number = 1, small 4
+	// n = 2  ((0,2)   (4,6))     ((1,3) (5,7))	  Big Group number = 2, small 2
+	// n = 4  ((0,4)) ((1,5))    ((2,6)) ((3,7))  Big Group number = 4, small 1
+	int i,j,n=1 ; 
+	while ( n < N )
+	{
+		cout << "n=" << n << endl ;
+		for (i = 0 ; i < n ; i++)
+		{
+			cout << "  " << i << ":" << endl ;
+			for ( int j=i ; j< N ; j=j+2*n)
+			{
+				cout << "  ( " << j << "," << j+n << " )" << endl ;
+			}
+			
+//			j = i + n/2 ; 
+//			cout << "(" << i << "," << j << ")" << endl ;
+		}
+		n *= 2 ; 
+	}
+	
 }
