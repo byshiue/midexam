@@ -32,7 +32,7 @@ int main()
 	
 	iFFT(y_r,y_i,z_r,z_i,p) ; 
 	
-	
+	 
 }
 
 int INITIAL(double *x_r, double*x_i, int N)  
